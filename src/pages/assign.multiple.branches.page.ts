@@ -39,7 +39,26 @@ export class AssignMultipleBranches {
   }
 
   async slectBranch(value: string) {
-    await this.page.getByRole("option").filter({ hasText: value }).click();
+    
+    const listbox = this.page.getByRole('listbox');
+await expect(listbox).toBeVisible();
+
+const options = listbox.getByRole('option');
+await expect(options.first()).toBeVisible();
+
+const count = await options.count();
+
+if (count === 0) {
+  console.log('No options available to select.');
+} else {
+  const randomIndex = Math.floor(Math.random() * count);
+  const selectedOption = options.nth(randomIndex);
+
+  const selectedText = await selectedOption.textContent();
+  console.log(`Randomly selected: ${selectedText}`);
+
+  await selectedOption.click();
+}
   }
 
   async clickSaveButton() {

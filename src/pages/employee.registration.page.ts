@@ -1,65 +1,78 @@
 import { Page, Locator, expect } from "@playwright/test";
 
 export class EmployeeRegistration {
-  constructor(private readonly page: Page) {}
+  private readonly registerEmployeeBtn: Locator;
+  private readonly addNewBtn: Locator;
+  private readonly titleDropdown: Locator;
+  private readonly fullNameInput: Locator;
+  private readonly surNameInput: Locator;
+  private readonly salutationInput: Locator;
+  private readonly genderDropdown: Locator;
+  private readonly dobInput: Locator;
+  private readonly placeOfBirthInput: Locator;
+  private readonly bloodGroupDropdown: Locator;
+
+  constructor(private readonly page: Page) {
+    this.registerEmployeeBtn = page.getByRole("button", {
+      name: "Register Employee",
+    });
+
+    this.addNewBtn = page.getByRole("button", { name: "Add New" });
+
+    this.titleDropdown = page.locator("#root_title");
+    this.fullNameInput = page.locator("#root_fullName");
+    this.surNameInput = page.locator("#root_surName");
+    this.salutationInput = page.locator("#root_salName");
+    this.genderDropdown = page.locator("#root_gender");
+    this.dobInput = page.locator("#root_dob");
+    this.placeOfBirthInput = page.locator("#root_placeOfBirth");
+    this.bloodGroupDropdown = page.locator("#root_bloodGroup");
+  }
 
   async clickRegisterEmployee(): Promise<void> {
-    await this.page.getByText("Register Employee").click();
+    await expect(this.registerEmployeeBtn).toBeVisible();
+    await this.registerEmployeeBtn.click();
   }
 
   async clickEmployeeRegistrationAddNew(): Promise<void> {
-    await this.page.getByRole("button", { name: "Add New" }).click();
+    await expect(this.addNewBtn).toBeEnabled();
+    await this.addNewBtn.click();
   }
 
   async enterEmployeeTitle(title: string): Promise<void> {
-    await this.page.locator("#root_title").click();
+    await this.titleDropdown.click();
     await this.page.getByRole("option", { name: title }).click();
   }
 
   async enterFullName(fullName: string): Promise<void> {
-    const input = this.page.locator("#root_fullName");
-
-    await expect(input).toBeVisible();
-    await input.fill(fullName);
+    await expect(this.fullNameInput).toBeVisible();
+    await this.fullNameInput.fill(fullName);
   }
 
   async enterSurName(surName: string): Promise<void> {
-    const input = this.page.locator("#root_surName");
-
-    await expect(input).toBeVisible();
-    await input.fill(surName);
+    await expect(this.surNameInput).toBeVisible();
+    await this.surNameInput.fill(surName);
   }
 
   async enterSalutation(salutation: string): Promise<void> {
-    await this.page.fill("#root_salName", salutation);
+    await this.salutationInput.fill(salutation);
   }
 
   async selectGender(gender: string): Promise<void> {
-    await this.page.locator("#root_gender").click();
-
+    await this.genderDropdown.click();
     await this.page.getByRole("option", { name: gender }).click();
   }
 
-  async selectMaleGender(Gender: string): Promise<void> {
-    await this.page.getByRole("option", { name: Gender }).click();
+  async enterDOB(dob: string): Promise<void> {
+    await this.dobInput.fill(dob);
   }
 
-  async enterDOB(dob: string) {
-    // dob format depends on your app, e.g., '1990-05-25' or '25/05/1990'
-    await this.page.locator("#root_dob").fill(dob);
+  async enterPlaceOfBirth(place: string): Promise<void> {
+    await this.placeOfBirthInput.fill(place);
   }
 
-  async enterPlaceOfBirth(place: string) {
-    await this.page.locator("#root_placeOfBirth").fill(place);
-  }
-
-  async selectBloodGroup(bloodGroup: string) {
-    // Click the dropdown to open options
-    await this.page.locator("#root_bloodGroup").click();
-
-    // Click the option that matches the blood group
-    await this.page
-      .locator(`//li[@role='option' and normalize-space()='${bloodGroup}']`)
-      .click();
+  async selectBloodGroup(bloodGroup: string): Promise<void> {
+    await this.bloodGroupDropdown.click();
+    await this.page.getByRole("option", { name: bloodGroup }).click();
   }
 }

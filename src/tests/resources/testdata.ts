@@ -9,16 +9,17 @@ export const testdata = {
 
   loginId_Authorization: "17631",
   userId_Restriction: "166509rn - Qa One",
+  selectUser: "166513rn - Testing Head Office System User",
 
   // Branch Data
-  slectBranch: "Head Office (999) - Default",
+  slectBranch: "Kandy - HR",
   branchName: "Kandy",
   Division: "Default",
   Resigned: "NOT AVAILABLE",
   EmployeeType: "Probation",
 
   // Menu Action List
-  searchMenuActionList: "335",
+  searchMenuActionList: "348",
 
   // Role Management
   enterRoleName: "Test Roles",

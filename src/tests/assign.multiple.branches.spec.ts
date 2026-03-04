@@ -54,9 +54,7 @@ test.describe("assign multiple branches", () => {
       await navBarpage.navigateToAssignMultipleBranches();
       await assignmultiplebranches.selectUserId();
       //await assignmultiplebranches.waitUntillUserId();
-      await assignmultiplebranches.selectUser(
-        "166513rn - Testing Head Office System User",
-      );
+      await assignmultiplebranches.selectUser(testdata.selectUser);
       await assignmultiplebranches.addNewButton();
       await assignmultiplebranches.selectBranchDeptId();
       await assignmultiplebranches.slectBranch(testdata.slectBranch);

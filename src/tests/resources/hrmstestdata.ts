@@ -44,7 +44,6 @@ export const testdata = {
   hrms_fillEmergencyMobile: "078554322",
   hrms_fillTelephone: "0112864236",
 
-
   Employee_Number: "345567",
   Emplloyee_EPFNumber: "345567",
   searchEmployeeId: "58070",

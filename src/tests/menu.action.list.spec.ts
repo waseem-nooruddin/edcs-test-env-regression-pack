@@ -27,7 +27,7 @@ test.describe("Menu Action List Page", () => {
         page.getByRole("heading", { name: "Menu Action List" }),
       ).toBeVisible();
       await menuActionListPage.searchMenuActionList(testdata.searchMenuActionList);
-      await expect(page.getByText("338", { exact: false })).toBeVisible();
+      await expect(page.getByText(testdata.searchMenuActionList, { exact: false })).toBeVisible();
     },
   );
 });
