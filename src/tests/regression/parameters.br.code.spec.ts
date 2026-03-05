@@ -1,7 +1,7 @@
 import {test,expect} from "@playwright/test"
-import { LoginPage } from "../pages/login.page"
-import { ParametersBranchCodePage } from "../pages/parameters.br.code.page"
-import { credentials } from "./resources/credentials";
+import { LoginPage } from "../../pages/login.page";
+import { ParametersBranchCodePage } from "../../pages/parameters.br.code.page";
+import { credentials } from "../resources/credentials";
 
 test.describe("Parameter Branch Code testing", () => {
   let loginPage: LoginPage;
@@ -31,5 +31,12 @@ test.describe("Parameter Branch Code testing", () => {
     await test.step("verify navigation to branch code page", async () => {
       await parameterBranchCode.verifyNavigationToBranchCode();
     }); 
+
+    //testcase 2
+    await test.step("Verify branch code grid columns", async () => {
+      await parameterBranchCode.verifyBranchCodeGridColumns();
+   });
+
+   //testcase 3
   });
-}); 
+});

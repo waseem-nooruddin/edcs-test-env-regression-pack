@@ -26,4 +26,23 @@ export class ParametersBranchCodePage {
     await this.page.waitForURL(/.*\/branch-code\/list$/, { timeout: 30000 });
   }
 
+  async verifyBranchCodeGridColumns(): Promise<void> {
+    const expectedColumns = [
+      "Branch Code",
+      "Branch Name",
+      "Actions"
+    ];
+    for (const columnName of expectedColumns) {
+      const columnHeader = this.page.locator(`.MuiTableHead-root:has-text("${columnName}")`);
+      await columnHeader.waitFor({ state: "visible", timeout: 30000 });
+    }
+  }
+
+  async clickRowsPerPageDropdown(): Promise<void> {
+    
+  }
+
+  async verify10RowsPerPageFunctionality(): Promise<void> {
+    
+  }
 }
