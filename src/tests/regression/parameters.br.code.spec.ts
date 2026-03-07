@@ -38,5 +38,22 @@ test.describe("Parameter Branch Code testing", () => {
    });
 
    //testcase 3
+   //10 rows
+   await test.step("Click on 10 rows per page dropdown", async () => {
+    await parameterBranchCode.selectRowsPerPage("10");  
+   });
+   await parameterBranchCode.verifyRowsCount(10);
+
+   //25 rows
+   await test.step("Click on 25 rows per page dropdown", async () => {
+    await parameterBranchCode.selectRowsPerPage("25");
+   });
+   await parameterBranchCode.verifyRowsCount(25);
+
+   //100 rows
+   await test.step("Click on 100 rows per page dropdown", async () => {
+    await parameterBranchCode.selectRowsPerPage("100");
+   });
+   await parameterBranchCode.verifyRowsCount(100);
   });
 });
