@@ -56,26 +56,90 @@ export class BranchDeptMappingPage {
   }
 
   async selectABranch() {
-    const galleOption = this.page.getByRole("option", { name: "Kandy - Kandy" });
+    const galleOption = this.page.getByRole("option", {
+      name: "Kandy - Kandy",
+    });
     await galleOption.click();
   }
 
-async verifyBranchInTable(branchName: string) {
+  async verifyBranchInTable(branchName: string) {
     // Pick the first table cell matching the branch name
-    const cell = this.page.getByRole('cell', { name: branchName }).first();
+    const cell = this.page.getByRole("cell", { name: branchName }).first();
 
     // Verify it's visible
     await expect(cell).toBeVisible();
-}
+  }
 
-
-async verifyAllBranchOccurrences(branchName: string) {
-    const cells = this.page.getByRole('cell', { name: branchName });
+  async verifyAllBranchOccurrences(branchName: string) {
+    const cells = this.page.getByRole("cell", { name: branchName });
     const count = await cells.count();
 
     for (let i = 0; i < count; i++) {
       await expect(cells.nth(i)).toBeVisible();
     }
   }
+
+  async verifyAddNewButtonVisible() {
+    const addNewBtn = this.page.getByRole("button", { name: "Add New" });
+    await expect(addNewBtn).toBeVisible();
+  }
+
+  async AddNewButtonVisible() {
+    await this.page.getByRole("button", { name: "Add New" }).click();
+  }
+
+  async verifyDeptDivDetailsHeading() {
+    const heading = this.page.getByRole("heading", {
+      name: "Dept/Div Details",
+      level: 1,
+    });
+
+    await expect(heading).toBeVisible();
+  }
+
+  async selectDeptDivDropdwon() {
+    await this.page.locator("#root_departmentId").dblclick();
+  }
+
+  async verifyDepartmentListLoaded() {
+    const options = this.page.getByRole("listbox").getByRole("option");
+    await expect(options.first()).toBeVisible();
+  }
+
+  async verifySaveButtonVisible() {
+    const saveBtn = this.page.getByRole("button", { name: "Save" });
+    await expect(saveBtn).toBeVisible();
+  }
+
+  async clickFirstEditButton() {
+    const editBtn = this.page.getByRole("button", { name: "Edit" }).first();
+    await editBtn.click();
+  }
+
+  async clickSaveButton() {
+    await this.page.getByRole("button", { name: "Save" }).click();
+  }
+
+  async verifyRequiredFieldError() {
+    const errorMsg = this.page.getByText("is a required property");
+    await expect(errorMsg).toBeVisible();
+  }
+
+  async clickFirstDeleteButton() {
+  const deleteBtn = this.page.getByRole('button', { name: 'Delete' }).first();
+  await deleteBtn.click();
+}
+
+async verifyDeleteConfirmationMessage() {
+  const dialog = this.page.getByRole('dialog');
+  const message = dialog.getByText('Are you sure you want to delete?');
+
+  await expect(message).toBeVisible();
+}
+
+async verifyContinueButtonVisible() {
+  const continueBtn = this.page.getByRole('button', { name: 'Continue' });
+  await expect(continueBtn).toBeVisible();
+}
 
 }

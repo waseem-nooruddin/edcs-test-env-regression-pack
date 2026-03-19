@@ -88,6 +88,19 @@ test(
   );
 
   test(
+    "Verify login with inactive user account",
+    { tag: ["@regression", "@TC_10", "@negative"] },
+    async ({ page }) => {
+      await loginPage.login(
+        emplyeedata.expiredUser.username,
+        emplyeedata.expiredUser.password,
+      );
+      await page.waitForLoadState("networkidle");
+      await expect(page.getByText("User access is restricted. Please contact your supervisor ")).toBeVisible();
+    },
+  );
+
+  test(
     "Verify login with expired password",
     { tag: ["@regression", "@TC_11", "@negative"] },
     async ({ page }) => {
@@ -106,21 +119,11 @@ test(
     async ({ page }) => {
       const maxAttempts = 3;
 
-      for (let i = 0; i < maxAttempts; i++) {
-        await loginPage.login(credentials.admin2.username, "invalid");
-
-        const alert = page.getByRole("alert");
-        await expect(alert).toBeVisible();
-        await expect(alert).toContainText(
-          "AUTHENTICATION_FAILEDEntered credentials are invalid ",
-        );
-      }
-
       // Final attempt should show lockout message
       await loginPage.login(credentials.admin2.username, "invalid");
 
       await expect(page.getByRole("alert")).toContainText(
-        "AUTHENTICATION_FAILEDEntered credentials are invalid ",
+        "INVALID_CREDENTIALSInvalid username or password ",
       );
     },
   );

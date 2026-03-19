@@ -2,7 +2,7 @@
   "userDetails": {
     "userid": "166516 - Testing Five ",
     "searchingUser": "166516 - Testing Five ",
-    "selectUser": "166513rn - Testing Head Office System User"
+    "selectUser": "1665"
   },
 
   "employeeIdentifiers": {
@@ -45,8 +45,11 @@
   },
 
  "Branch": {
-    "Branch": "Kandy - Kandy"
+    "Branch": "Nuwara-eliya"
 
+  },
+
+  "Date": {
+    "Date":"2026-04-08"
   }
-
 }

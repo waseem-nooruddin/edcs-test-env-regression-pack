@@ -83,7 +83,267 @@ test.describe("Branch Dept Mapping", () => {
       await branchDeptMappingPage.selectBranchDepartmentMappingPage();
       await branchDeptMappingPage.selectAssignDepttoBranch();
       await branchDeptMappingPage.selectABranch();
-      await branchDeptMappingPage.verifyAllBranchOccurrences(testdata.Branch.Branch);
+      await branchDeptMappingPage.verifyAllBranchOccurrences(
+        testdata.Branch.Branch,
+      );
+    },
+  );
+
+  test(
+    "Verify existing Dept/Div mappings are listed",
+    { tag: ["@regression", "@TC_005", "@positive"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.verifyAllBranchOccurrences(
+        testdata.Branch.Branch,
+      );
+    },
+  );
+
+  test(
+    "Verify “Add New” button visibility and enablement",
+    { tag: ["@regression", "@TC_006", "@positive"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.verifyAddNewButtonVisible();
+    },
+  );
+
+  test(
+    "Verify clicking “Add New” opens Dept/Div Details modal",
+    { tag: ["@regression", "@TC_007", "@positive"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.AddNewButtonVisible();
+      await branchDeptMappingPage.verifyDeptDivDetailsHeading();
+    },
+  );
+
+  test(
+    "Verify Dept/Div dropdown displays available departments/divisions",
+    { tag: ["@regression", "@TC_008", "@positive"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.AddNewButtonVisible();
+      await branchDeptMappingPage.selectDeptDivDropdwon();
+      await branchDeptMappingPage.verifyDepartmentListLoaded();
+    },
+  );
+
+  test(
+    "Verify user can select a Dept/Div successfully",
+    { tag: ["@regression", "@TC_009", "@positive"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.AddNewButtonVisible();
+      await branchDeptMappingPage.selectDeptDivDropdwon();
+      await branchDeptMappingPage.verifyDepartmentListLoaded();
+      await branchDeptMappingPage.verifySaveButtonVisible();
+    },
+  );
+
+  test(
+    "Verify Save button creates new Branch–Dept/Div mapping",
+    { tag: ["@regression", "@TC_010", "@positive"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.AddNewButtonVisible();
+      await branchDeptMappingPage.selectDeptDivDropdwon();
+      await branchDeptMappingPage.verifyDepartmentListLoaded();
+      await branchDeptMappingPage.clickSaveButton();
+    },
+  );
+
+  test(
+    "Verify Edit icon is visible for each mapping",
+    { tag: ["@regression", "@TC_011", "@positive"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.verifyAllBranchOccurrences(
+        testdata.Branch.Branch,
+      );
+    },
+  );
+
+  test(
+    "Verify clicking Edit opens modal with selected mapping",
+    { tag: ["@regression", "@TC_012", "@positive"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.clickFirstEditButton();
+      await branchDeptMappingPage.verifyDeptDivDetailsHeading();
+    },
+  );
+
+  test(
+    "Verify updating Dept/Div and saving reflects changes",
+    { tag: ["@regression", "@TC_013", "@positive"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.clickFirstEditButton();
+      await branchDeptMappingPage.verifyDeptDivDetailsHeading();
+      await branchDeptMappingPage.clickSaveButton();
+    },
+  );
+
+  test(
+    "Verify Save button behavior without selecting Dept/Div",
+    { tag: ["@regression", "@TC_015", "@negative"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.AddNewButtonVisible();
+      await branchDeptMappingPage.verifyDeptDivDetailsHeading();
+      await branchDeptMappingPage.clickSaveButton();
+      await branchDeptMappingPage.verifyRequiredFieldError();
+    },
+  );
+
+  test(
+    "Verify Save without changing Dept/Div",
+    { tag: ["@regression", "@TC_017", "@negative"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.clickFirstEditButton();
+      await branchDeptMappingPage.verifyDeptDivDetailsHeading();
+      await branchDeptMappingPage.clickSaveButton();
+    },
+  );
+
+  test(
+    "Verify Delete operation when only one mapping exists",
+    { tag: ["@regression", "@TC_018", "@negative"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.clickFirstDeleteButton();
+      await branchDeptMappingPage.verifyDeleteConfirmationMessage();
+    },
+  );
+
+  test(
+    "Verify Delete operation at maximum mapping count",
+    { tag: ["@regression", "@TC_018", "@negative"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickOnTheBranchDeptMappingPage();
+      const branchDeptMappingPage = new BranchDeptMappingPage(page);
+      await branchDeptMappingPage.selectBranchDepartmentMappingPage();
+      await branchDeptMappingPage.selectAssignDepttoBranch();
+      await branchDeptMappingPage.selectABranch();
+      await branchDeptMappingPage.clickFirstDeleteButton();
+      await branchDeptMappingPage.verifyDeleteConfirmationMessage();
+      await branchDeptMappingPage.verifyContinueButtonVisible();
     },
   );
 

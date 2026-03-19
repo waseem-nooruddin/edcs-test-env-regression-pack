@@ -62,4 +62,8 @@ export class NavBarPage {
   async clickOnTheBranchDeptMappingPage(): Promise<void> {
     await this.page.getByRole("button", { name: "Parameters" }).click();
   }
+
+
+
+
 }

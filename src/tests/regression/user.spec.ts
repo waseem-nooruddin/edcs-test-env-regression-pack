@@ -377,6 +377,8 @@ test.describe("User Page", () => {
     },
   );
 
+  
+
   test(
     "Verify dropdown elements display correctly in the UI.",
     { tag: ["@regression", "@TC_34", "@UI"] },
