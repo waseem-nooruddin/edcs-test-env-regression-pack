@@ -16,7 +16,10 @@ test.describe("Login Tests", () => {
     "Verify successful login with correct User ID, Password, and Location",
     { tag: ["@regression", "@TC_1", "@positive"] },
     async ({ page }) => {
-      await loginPage.login(credentials.admin2.username, credentials.admin2.password);
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
       await page.waitForLoadState("networkidle");
       await expect(
         page.locator("main").getByText("Dashboard", { exact: true }),
@@ -29,9 +32,10 @@ test.describe("Login Tests", () => {
     { tag: ["@regression", "@TC_2", "@positive"] },
     async ({ page }) => {
       await loginPage.login(
-        credentials.admin1.username, credentials.admin1.password
+        credentials.admin1.username,
+        credentials.admin1.password,
       );
-      await loginPage.SelectYourBranch(testdata.restrictionConfiguration.location);
+      await loginPage.selectRandomBranchAndVerify();
       await page.waitForLoadState("networkidle");
       await expect(
         page.locator("main").getByText("Dashboard", { exact: true }),
@@ -43,10 +47,17 @@ test.describe("Login Tests", () => {
     "Verify first-time login redirects to change password",
     { tag: ["@regression", "@TC_3", "@positive"] },
     async ({ page }) => {
-      await loginPage.login(credentials.admin2.username, credentials.admin2.password);
-      await loginPage.loginWithchangePassword(emplyeedata.user1.password,emplyeedata.user2.password,emplyeedata.user3.password);
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      await loginPage.loginWithchangePassword(
+        emplyeedata.user1.password,
+        emplyeedata.user2.password,
+        emplyeedata.user3.password,
+      );
       await page.waitForLoadState("networkidle");
-      await expect(page.getByText('Sign in').first()).toBeDisabled();
+      await expect(page.getByText("Sign in").first()).toBeDisabled();
     },
   );
 
@@ -60,20 +71,20 @@ test.describe("Login Tests", () => {
     },
   );
 
-test(
-  "Verify login with invalid Password",
-  { tag: ["@regression", "@TC_8", "@negative"] },
-  async ({ page }) => {
-    await loginPage.login(credentials.admin2.username, "invalid");
+  test(
+    "Verify login with invalid Password",
+    { tag: ["@regression", "@TC_8", "@negative"] },
+    async ({ page }) => {
+      await loginPage.login(credentials.admin2.username, "invalid");
 
-    const alert = page.getByRole("alert");
+      const alert = page.getByRole("alert");
 
-    await expect(alert).toBeVisible();
-    await expect(alert).toContainText(
-      /AUTHENTICATION_FAILED|INVALID_CREDENTIALS|Invalid username or password/
-    );
-  },
-);
+      await expect(alert).toBeVisible();
+      await expect(alert).toContainText(
+        /AUTHENTICATION_FAILED|INVALID_CREDENTIALS|Invalid username or password/,
+      );
+    },
+  );
 
   test(
     "Verify login with blank credentials",
@@ -96,7 +107,11 @@ test(
         emplyeedata.expiredUser.password,
       );
       await page.waitForLoadState("networkidle");
-      await expect(page.getByText("User access is restricted. Please contact your supervisor ")).toBeVisible();
+      await expect(
+        page.getByText(
+          "User access is restricted. Please contact your supervisor ",
+        ),
+      ).toBeVisible();
     },
   );
 
@@ -168,7 +183,7 @@ test(
     },
   );
 
-    test(
+  test(
     "Verify focus highlighting",
     { tag: ["@regression", "@TC_17", "@UI"] },
     async ({ page }) => {
@@ -188,7 +203,7 @@ test(
     },
   );
 
-    test(
+  test(
     "Verify incorrect credentials UI",
     { tag: ["@regression", "@TC_18", "@UI"] },
     async ({ page }) => {
@@ -202,9 +217,12 @@ test(
       });
 
       // Allow a small tolerance for minor pixel differences
-      expect(screenshotBuffer).toMatchSnapshot("InValidloginPage-chromium-win32.png", {
-        maxDiffPixelRatio: 0.02,
-      });
+      expect(screenshotBuffer).toMatchSnapshot(
+        "InValidloginPage-chromium-win32.png",
+        {
+          maxDiffPixelRatio: 0.02,
+        },
+      );
     },
   );
 });

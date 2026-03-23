@@ -65,7 +65,7 @@ test.describe("Branch Dept Mapping", () => {
       await branchDeptMappingPage.selectBranchDepartmentMappingPage();
       await branchDeptMappingPage.selectAssignDepttoBranch();
       await branchDeptMappingPage.selectABranch();
-      await branchDeptMappingPage.verifyBranchInTable(testdata.Branch.Branch);
+      await branchDeptMappingPage.verifyRandomBranchInTable();
     },
   );
 

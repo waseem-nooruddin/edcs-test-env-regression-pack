@@ -377,8 +377,6 @@ test.describe("User Page", () => {
     },
   );
 
-  
-
   test(
     "Verify dropdown elements display correctly in the UI.",
     { tag: ["@regression", "@TC_34", "@UI"] },
@@ -549,7 +547,7 @@ test.describe("User Page", () => {
 
   test(
     "Verify Sorting by columns headers UI",
-    { tag: ["@regression", "@TC_40","@TC_41", "@UI"] },
+    { tag: ["@regression", "@TC_40", "@TC_41", "@UI"] },
     async ({ page }) => {
       await loginPage.login(
         credentials.admin2.username,
@@ -574,5 +572,4 @@ test.describe("User Page", () => {
       });
     },
   );
-
 });

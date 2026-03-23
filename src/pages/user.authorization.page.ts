@@ -36,17 +36,31 @@ export class UserAuthorization {
   }
 
   async authorizeUser(): Promise<void> {
-    const row = this.page.getByRole("row", {
-      name: new RegExp(testdata.employeeIdentifiers.Employee_Number),
-    });
+  // Get all rows
+  const rows = this.page.getByRole("row");
 
-    await expect(row).toBeVisible();
+  // Filter rows that contain "Pending" or "Pending authorization"
+  const pendingRows = rows.filter({
+    hasText: /Pending/,
+  });
 
-    const authorizeButton = row.locator("button").nth(1); // second action button
-    await expect(authorizeButton).toBeVisible();
+  // Ensure at least one exists
+  await expect(pendingRows.first()).toBeVisible();
 
-    await authorizeButton.click();
-  }
+  // Pick a random row
+  const count = await pendingRows.count();
+  const randomIndex = Math.floor(Math.random() * count);
+  const selectedRow = pendingRows.nth(randomIndex);
+
+  // Scope inside the row → find authorize button
+  const authorizeButton = selectedRow.locator('button[title="Authorize"], span[title="Authorize"] button');
+
+  await expect(authorizeButton).toBeVisible();
+  await expect(authorizeButton).toBeEnabled();
+
+  await authorizeButton.click();
+}
+
 
   async RejectUser(): Promise<void> {
     await this.page.getByRole("button", { name: "Cancel" }).first().click();

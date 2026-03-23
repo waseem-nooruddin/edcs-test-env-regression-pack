@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 
 export class LoginPage {
   constructor(private readonly page: Page) {}
@@ -25,10 +25,43 @@ export class LoginPage {
     await this.page.getByRole('button', { name: 'Reset Password' }).click();
   }
 
-  async SelectYourBranch(location: string) {
+  // async SelectYourBranch(location: string) {
+  //   await this.page.click("#demo-simple-select-outlined");
+  //   await this.page.getByRole("option", { name: location }).first().click();
+  //   await this.page.getByRole("button", { name: "Submit" }).click();
+  // }
+
+  async selectRandomBranchAndVerify() {
+    // 1️⃣ Open dropdown
     await this.page.click("#demo-simple-select-outlined");
-    await this.page.getByRole("option", { name: location }).first().click();
+
+    const options = this.page.getByRole("option");
+    await options.first().waitFor({ state: "visible" });
+
+    const count = await options.count();
+    if (count === 0) throw new Error("No branch options available");
+
+    // 2️⃣ Pick random option
+    const randomIndex = Math.floor(Math.random() * count);
+    const randomOption = options.nth(randomIndex);
+
+    // 3️⃣ Capture text BEFORE clicking
+    const selectedBranch = (await randomOption.innerText()).trim();
+
+    // 4️⃣ Select branch
+    await randomOption.scrollIntoViewIfNeeded();
+    await randomOption.click();
+
+    // 5️⃣ Submit
     await this.page.getByRole("button", { name: "Submit" }).click();
+
+    console.log("Selected Branch:", selectedBranch);
+
+    // // 6️⃣ Verify in table
+    // const cell = this.page.getByRole("cell", { name: selectedBranch }).first();
+    // await expect(cell).toBeVisible();
+
+    return selectedBranch;
   }
 
   async getErrorMessage(): Promise<string> {

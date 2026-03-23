@@ -1,4 +1,6 @@
 import { test, expect, APIRequestContext } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
 
 // ---------------------------------------------------------------------------
 // Helpers – mirrors the Postman pre-request script
@@ -19,7 +21,7 @@ function generateNumericId(length = 5): string {
 // ---------------------------------------------------------------------------
 
 const BASE_URL =
-  'http://dev-edcs-v6-1531592723.ap-southeast-1.elb.amazonaws.com';
+  'http://qa-edcs-v1-1604665350.ap-southeast-1.elb.amazonaws.com';
 
 const ENDPOINT =
   '/edcs-be-hrms/api/v1/hrms-center/employees/Update-employee-data';
@@ -410,6 +412,36 @@ test.describe('HRMS Employee Creation – Update Employee Data API', () => {
       response.ok(),
       `Expected 2xx but got ${response.status()}: ${body}`
     ).toBeTruthy();
+
+    // Capture employee ID from response
+    try {
+      const responseJson = JSON.parse(body);
+      const employeeId = responseJson?.id || responseJson?.employeeId || responseJson?.data?.id || responseJson?.personalDetailDTO?.id;
+      const empId = responseJson?.personalDetailDTO?.empId;
+      
+      if (employeeId || empId) {
+        if (employeeId) console.log(`✓ Captured Employee ID: ${employeeId}`);
+        if (empId) console.log(`✓ Captured EmpId: ${empId}`);
+        
+        // Save employee ID and empId to JSON file
+        const resourcesDir = 'C:\\Users\\WaseemNooruddin\\IdeaProjects\\Edcs-User Registration_QA - Regraession Testing - 3\\src\\tests\\resources';
+        if (!fs.existsSync(resourcesDir)) {
+          fs.mkdirSync(resourcesDir, { recursive: true });
+        }
+        
+        const filePath = path.join(resourcesDir, 'employee.json');
+        const employeeData = { 
+          employeeId: employeeId || null,
+          empId: empId || null
+        };
+        fs.writeFileSync(filePath, JSON.stringify(employeeData, null, 2));
+        console.log(`✓ Employee data saved to: ${filePath}`);
+      } else {
+        console.log(`⚠ Employee ID not found in response. Response structure:`, JSON.stringify(responseJson, null, 2));
+      }
+    } catch (e) {
+      console.log(`⚠ Failed to parse response as JSON:`, e);
+    }
   });
 
   test('NIC should be exactly 9 digits', () => {

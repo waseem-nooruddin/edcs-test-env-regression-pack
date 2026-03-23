@@ -60,8 +60,27 @@ export class AssignMultipleBranches {
   //   }
   // }
 
-  async selectBranch(value: string) {
-    await this.page.getByRole("option", { name: value }).first().click();
+  async selectBranch() {
+    // await this.page.getByRole("option", { name: value }).first().click();
+
+    // Ensure dropdown is already opened before this step
+
+    const options = this.page.getByRole("option");
+
+    // Get total number of options
+    const count = await options.count();
+
+    // Generate random index
+    const randomIndex = Math.floor(Math.random() * count);
+
+    // Select the random option
+    const randomOption = options.nth(randomIndex);
+
+    // Ensure it's visible (important for long lists)
+    await randomOption.scrollIntoViewIfNeeded();
+
+    // Click the option
+    await randomOption.click();
   }
 
   async clickSaveButton() {
@@ -144,5 +163,32 @@ export class AssignMultipleBranches {
 
   async clickDeleteForRow(branchName: string) {
     await this.page.locator('button[title="Delete"]').first().click();
+  }
+
+  async verifyBranchRequiredError() {
+    const errorMessage = this.page.locator("p.Mui-error#root_brachDeptId");
+
+    await expect(errorMessage).toBeVisible();
+    await expect(errorMessage).toHaveText("is a required property");
+  }
+
+  async verifySaveButtonNotVisible() {
+    const saveButton = this.page.getByRole("button", {
+      name: "Save",
+      exact: true,
+    });
+
+    await expect(saveButton).not.toBeVisible();
+  }
+
+  async deleteFirstRow() {
+     while (true) {
+    const deleteButtons = this.page.locator("//button[@title='Delete']");
+    const count = await deleteButtons.count();
+    if (count === 0) break;
+    await deleteButtons.first().click();
+    // Optional: wait for the row to be removed before checking again
+    await this.page.waitForTimeout(300);
+  }
   }
 }

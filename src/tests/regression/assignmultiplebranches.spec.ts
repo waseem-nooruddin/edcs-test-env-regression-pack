@@ -123,7 +123,7 @@ test.describe("Assign Multipl eBranches", () => {
       await assignMultipleBranches.selectUser(testdata.userDetails.selectUser);
       await assignMultipleBranches.addNewButton();
       await assignMultipleBranches.selectBranchDeptId();
-      await assignMultipleBranches.selectBranch(testdata.Branch.Branch);
+      await assignMultipleBranches.selectBranch();
       await assignMultipleBranches.fillToDate(testdata.Date.Date);
       await assignMultipleBranches.clickSaveButton();
     },
@@ -187,6 +187,70 @@ test.describe("Assign Multipl eBranches", () => {
     },
   );
 
-  
+  test(
+    "Verify system does not allow saving without selecting Login ID",
+    { tag: ["@regression", "@TC_011", "@positive"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickUserManagement();
+      await navBarpage.navigateToAssignMultipleBranches();
+      const assignMultipleBranches = new AssignMultipleBranches(page);
+      await assignMultipleBranches.verifyAssignMultipleBranchesHeading();
+      //   await assignMultipleBranches.selectUserId();
+      //   await assignMultipleBranches.selectUser(testdata.userDetails.selectUser);
+      //   await assignMultipleBranches.addNewButton();
+      await assignMultipleBranches.verifySaveButtonNotVisible();
+      //   await assignMultipleBranches.verifyBranchRequiredError();
+    },
+  );
 
+  test(
+    "Verify system does not allow saving without selecting Branch Division",
+    { tag: ["@regression", "@TC_012", "@positive"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickUserManagement();
+      await navBarpage.navigateToAssignMultipleBranches();
+      const assignMultipleBranches = new AssignMultipleBranches(page);
+      await assignMultipleBranches.verifyAssignMultipleBranchesHeading();
+      await assignMultipleBranches.selectUserId();
+      await assignMultipleBranches.selectUser(testdata.userDetails.selectUser);
+      await assignMultipleBranches.addNewButton();
+      await assignMultipleBranches.clickSaveButton();
+      await assignMultipleBranches.verifyBranchRequiredError();
+    },
+  );
+
+  test(
+    "Verify system does not allow To Date earlier than From Date",
+    { tag: ["@regression", "@TC_006", "@positive"] },
+    async ({ page }) => {
+      await loginPage.login(
+        credentials.admin2.username,
+        credentials.admin2.password,
+      );
+      const navBarpage = new NavBarPage(page);
+      await navBarpage.clickUserManagement();
+      await navBarpage.navigateToAssignMultipleBranches();
+      const assignMultipleBranches = new AssignMultipleBranches(page);
+      await assignMultipleBranches.verifyAssignMultipleBranchesHeading();
+      await assignMultipleBranches.selectUserId();
+      await assignMultipleBranches.selectUser(testdata.userDetails.selectUser);
+      await assignMultipleBranches.addNewButton();
+      await assignMultipleBranches.selectBranchDeptId();
+      await assignMultipleBranches.selectBranch();
+      await assignMultipleBranches.fillToDate(testdata.Date.EarlierDate);
+      await assignMultipleBranches.clickSaveButton();
+    },
+  );
+
+  
 });

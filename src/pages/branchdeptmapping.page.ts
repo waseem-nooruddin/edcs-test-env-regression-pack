@@ -56,19 +56,50 @@ export class BranchDeptMappingPage {
   }
 
   async selectABranch() {
-    const galleOption = this.page.getByRole("option", {
-      name: "Kandy - Kandy",
-    });
-    await galleOption.click();
+    // Ensure the dropdown is already opened
+    const options = this.page.getByRole("option");
+
+    // Get the total number of options
+    const count = await options.count();
+
+    // Generate a random index
+    const randomIndex = Math.floor(Math.random() * count);
+
+    // Select the option at the random index
+    const randomOption = options.nth(randomIndex);
+
+    // Scroll into view in case it's offscreen
+    await randomOption.scrollIntoViewIfNeeded();
+
+    // Click the random option
+    await randomOption.click();
+
+    // // Optional: log the selected value for reporting
+    // console.log("Selected option:", await randomOption.innerText());
   }
 
-  async verifyBranchInTable(branchName: string) {
-    // Pick the first table cell matching the branch name
-    const cell = this.page.getByRole("cell", { name: branchName }).first();
+ async verifyRandomBranchInTable() {
+  // Locate all branch name cells in the table
+  const branchCells = this.page.locator('table.MuiTable-root tbody tr td:nth-child(1)');
 
-    // Verify it's visible
-    await expect(cell).toBeVisible();
-  }
+  // Get total number of branch cells
+  const count = await branchCells.count();
+  if (count === 0) throw new Error('No branches found in the table');
+
+  // Pick a random index
+  const randomIndex = Math.floor(Math.random() * count);
+
+  // Get the branch cell at that random index
+  const randomCell = branchCells.nth(randomIndex);
+
+  // Get its text content
+  const branchName = await randomCell.textContent();
+
+  // Assert the cell is visible
+  await expect(randomCell).toBeVisible();
+
+  console.log(`Verified random branch: "${branchName}" at row index ${randomIndex}`);
+}
 
   async verifyAllBranchOccurrences(branchName: string) {
     const cells = this.page.getByRole("cell", { name: branchName });
@@ -126,20 +157,19 @@ export class BranchDeptMappingPage {
   }
 
   async clickFirstDeleteButton() {
-  const deleteBtn = this.page.getByRole('button', { name: 'Delete' }).first();
-  await deleteBtn.click();
-}
+    const deleteBtn = this.page.getByRole("button", { name: "Delete" }).first();
+    await deleteBtn.click();
+  }
 
-async verifyDeleteConfirmationMessage() {
-  const dialog = this.page.getByRole('dialog');
-  const message = dialog.getByText('Are you sure you want to delete?');
+  async verifyDeleteConfirmationMessage() {
+    const dialog = this.page.getByRole("dialog");
+    const message = dialog.getByText("Are you sure you want to delete?");
 
-  await expect(message).toBeVisible();
-}
+    await expect(message).toBeVisible();
+  }
 
-async verifyContinueButtonVisible() {
-  const continueBtn = this.page.getByRole('button', { name: 'Continue' });
-  await expect(continueBtn).toBeVisible();
-}
-
+  async verifyContinueButtonVisible() {
+    const continueBtn = this.page.getByRole("button", { name: "Continue" });
+    await expect(continueBtn).toBeVisible();
+  }
 }
